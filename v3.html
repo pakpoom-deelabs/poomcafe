@@ -1,0 +1,1244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Poomcafe — A Place to Stay</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --espresso:   #160C07;
+      --deep-brown: #261508;
+      --mocha:      #5A3118;
+      --caramel:    #B8742C;
+      --gold:       #D49838;
+      --latte:      #C8946A;
+      --cream:      #FAF5EE;
+      --parchment:  #EDE0CC;
+      --beige:      #F5ECD7;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--espresso);
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ──────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 200;
+      padding: 1.8rem 4rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background 0.5s, padding 0.4s;
+    }
+
+    nav.scrolled {
+      background: rgba(22, 12, 7, 0.95);
+      backdrop-filter: blur(12px);
+      padding: 1.2rem 4rem;
+    }
+
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.35rem;
+      font-weight: 900;
+      color: var(--cream);
+      text-decoration: none;
+      letter-spacing: 0.12em;
+    }
+
+    .nav-logo em {
+      color: var(--caramel);
+      font-style: italic;
+      font-weight: 700;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.8rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: rgba(250,245,238,0.65);
+      text-decoration: none;
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover { color: var(--gold); }
+
+    /* ── HERO ─────────────────────────────────── */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 55% 45%;
+      position: relative;
+    }
+
+    .hero-left {
+      background: var(--espresso);
+      padding: 9rem 5rem 5rem 6rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    /* Coffee ring stain decorations */
+    .hero-left::before {
+      content: '';
+      position: absolute;
+      top: 18%; right: -40px;
+      width: 220px; height: 220px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(184,116,44,0.18);
+      box-shadow: 0 0 0 12px rgba(184,116,44,0.05);
+    }
+
+    .hero-left::after {
+      content: '';
+      position: absolute;
+      bottom: 20%; left: 15%;
+      width: 110px; height: 110px;
+      border-radius: 50%;
+      border: 1px solid rgba(184,116,44,0.12);
+      box-shadow: 0 0 0 8px rgba(184,116,44,0.04);
+    }
+
+    .hero-label {
+      font-size: 0.68rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--caramel);
+      margin-bottom: 1.8rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .hero-label::before {
+      content: '';
+      display: block;
+      width: 28px; height: 1px;
+      background: var(--caramel);
+    }
+
+    .hero-tagline {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1.15rem;
+      color: var(--latte);
+      margin-bottom: 0.8rem;
+    }
+
+    .hero-wordmark {
+      font-family: 'Playfair Display', serif;
+      font-weight: 900;
+      line-height: 0.88;
+      color: var(--cream);
+      margin-bottom: 2.5rem;
+    }
+
+    .hero-wordmark .line-1 {
+      display: block;
+      font-size: clamp(5.5rem, 9vw, 8.5rem);
+    }
+
+    .hero-wordmark .line-2 {
+      display: block;
+      font-size: clamp(2.5rem, 4vw, 3.8rem);
+      color: var(--caramel);
+      font-style: italic;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      margin-left: 0.1em;
+    }
+
+    .hero-body {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.25rem;
+      color: rgba(250,245,238,0.55);
+      line-height: 1.65;
+      max-width: 340px;
+      margin-bottom: 3.5rem;
+    }
+
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 1rem;
+      color: var(--gold);
+      text-decoration: none;
+      font-size: 0.75rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-weight: 500;
+      width: fit-content;
+      border-bottom: 1px solid rgba(212,152,56,0.4);
+      padding-bottom: 0.4rem;
+      transition: gap 0.3s, border-color 0.3s;
+    }
+
+    .hero-cta:hover { gap: 1.6rem; border-color: var(--gold); }
+    .hero-cta::after { content: '→'; font-size: 1.1rem; }
+
+    /* Vertical rotated text */
+    .hero-rotated {
+      position: absolute;
+      right: -1px; top: 50%;
+      transform: translateY(-50%) rotate(90deg);
+      transform-origin: center center;
+      font-size: 0.6rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: rgba(184,116,44,0.35);
+      white-space: nowrap;
+    }
+
+    .hero-right {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-right img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 8s ease;
+    }
+
+    .hero-right:hover img { transform: scale(1.04); }
+
+    .hero-right-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to right,
+        rgba(22,12,7,0.55) 0%,
+        rgba(22,12,7,0.1) 45%,
+        transparent 100%
+      );
+    }
+
+    /* Steam animation */
+    .steam-wrap {
+      position: absolute;
+      bottom: 5rem; left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 9px;
+      z-index: 2;
+    }
+
+    .steam {
+      width: 2px;
+      background: linear-gradient(to top, rgba(255,255,255,0.35), transparent);
+      border-radius: 2px;
+      animation: steamUp 3.2s ease-in-out infinite;
+    }
+
+    .steam:nth-child(1) { height: 38px; animation-delay: 0s; }
+    .steam:nth-child(2) { height: 52px; animation-delay: 0.6s; }
+    .steam:nth-child(3) { height: 30px; animation-delay: 1.2s; }
+
+    @keyframes steamUp {
+      0%   { opacity: 0;   transform: translateY(0) scaleX(1); }
+      25%  { opacity: 0.7; }
+      75%  { opacity: 0.25; }
+      100% { opacity: 0;   transform: translateY(-55px) scaleX(2); }
+    }
+
+    /* Scroll hint */
+    .hero-scroll {
+      position: absolute;
+      bottom: 2.5rem; left: 6rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      z-index: 10;
+    }
+
+    .scroll-bar {
+      width: 1px; height: 48px;
+      background: linear-gradient(to bottom, var(--caramel), transparent);
+      animation: pulse 2.2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%,100% { opacity: 0.25; }
+      50%      { opacity: 0.8; }
+    }
+
+    .scroll-text {
+      font-size: 0.6rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(184,116,44,0.5);
+      writing-mode: vertical-rl;
+    }
+
+    /* ── TICKER STRIP ─────────────────────────── */
+    .ticker {
+      background: var(--caramel);
+      padding: 0.85rem 0;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .ticker-track {
+      display: inline-flex;
+      animation: tickerScroll 28s linear infinite;
+    }
+
+    .ticker-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 1.5rem;
+      padding: 0 2rem;
+      font-size: 0.7rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--cream);
+      font-weight: 400;
+    }
+
+    .ticker-dot {
+      width: 4px; height: 4px;
+      border-radius: 50%;
+      background: rgba(250,245,238,0.5);
+      flex-shrink: 0;
+    }
+
+    @keyframes tickerScroll {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    /* ── MANIFESTO ────────────────────────────── */
+    .manifesto {
+      background: var(--deep-brown);
+      padding: 9rem 6rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .manifesto-deco {
+      position: absolute;
+      font-family: 'Playfair Display', serif;
+      font-size: 28vw;
+      font-weight: 900;
+      line-height: 1;
+      top: -1rem; left: 0;
+      color: rgba(184,116,44,0.05);
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .manifesto-inner {
+      max-width: 860px;
+      margin: 0 auto;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .section-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.8rem;
+      font-size: 0.68rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--caramel);
+      margin-bottom: 2.5rem;
+    }
+
+    .section-pill::before,
+    .section-pill::after {
+      content: '';
+      display: block;
+      width: 28px; height: 1px;
+      background: currentColor;
+    }
+
+    .manifesto-quote {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.9rem, 3.5vw, 3.2rem);
+      font-weight: 400;
+      font-style: italic;
+      color: var(--cream);
+      line-height: 1.45;
+      margin-bottom: 2rem;
+    }
+
+    .manifesto-attr {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.95rem;
+      letter-spacing: 0.15em;
+      color: rgba(200,148,106,0.65);
+    }
+
+    /* ── MENU ─────────────────────────────────── */
+    .menu-section {
+      padding: 7rem 0 8rem;
+      background: var(--cream);
+      overflow: hidden;
+    }
+
+    .menu-head {
+      padding: 0 6rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 4rem;
+    }
+
+    .menu-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 5.5vw, 5rem);
+      font-weight: 700;
+      color: var(--espresso);
+      line-height: 1.1;
+    }
+
+    .menu-title em {
+      display: block;
+      color: var(--caramel);
+    }
+
+    .menu-desc {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem;
+      color: var(--mocha);
+      max-width: 320px;
+      line-height: 1.65;
+      font-style: italic;
+    }
+
+    .menu-track {
+      display: flex;
+      gap: 1.8rem;
+      padding: 0 6rem 2rem;
+      overflow-x: auto;
+      scrollbar-width: none;
+      cursor: grab;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .menu-track::-webkit-scrollbar { display: none; }
+    .menu-track.dragging { cursor: grabbing; user-select: none; }
+
+    .card {
+      flex-shrink: 0;
+      width: 290px;
+      background: var(--parchment);
+      border-radius: 3px;
+      overflow: hidden;
+      transition: transform 0.45s cubic-bezier(0.25,0.46,0.45,0.94),
+                  box-shadow 0.45s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 24px 60px rgba(22,12,7,0.14);
+    }
+
+    .card-img {
+      height: 200px;
+      overflow: hidden;
+    }
+
+    .card-img img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.6s ease;
+    }
+
+    .card:hover .card-img img { transform: scale(1.06); }
+
+    .card-body { padding: 1.5rem; }
+
+    .card-cat {
+      font-size: 0.62rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--caramel);
+      font-weight: 500;
+      margin-bottom: 0.45rem;
+    }
+
+    .card-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--espresso);
+      margin-bottom: 0.5rem;
+    }
+
+    .card-desc {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      color: var(--mocha);
+      line-height: 1.55;
+      margin-bottom: 1rem;
+    }
+
+    .card-price {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem;
+      color: var(--caramel);
+      font-weight: 600;
+    }
+
+    /* ── ATMOSPHERE ───────────────────────────── */
+    .atm {
+      padding: 8rem 6rem;
+      background: var(--beige);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 7rem;
+      align-items: center;
+    }
+
+    .atm-images { position: relative; }
+
+    .atm-main {
+      width: 100%;
+      aspect-ratio: 3/4;
+      object-fit: cover;
+      border-radius: 3px;
+      display: block;
+    }
+
+    .atm-accent {
+      position: absolute;
+      width: 52%;
+      aspect-ratio: 1;
+      object-fit: cover;
+      bottom: -3.5rem; right: -3rem;
+      border: 5px solid var(--beige);
+      border-radius: 3px;
+    }
+
+    .atm-text {}
+
+    .atm-chapter {
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--caramel);
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .atm-chapter-num {
+      font-weight: 600;
+      color: var(--latte);
+    }
+
+    .atm-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.4rem, 3.8vw, 3.4rem);
+      font-weight: 700;
+      color: var(--espresso);
+      line-height: 1.2;
+      margin-bottom: 2rem;
+    }
+
+    .atm-title em { color: var(--caramel); }
+
+    .atm-body {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.18rem;
+      color: var(--mocha);
+      line-height: 1.8;
+      margin-bottom: 1.5rem;
+    }
+
+    .atm-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem 2.5rem;
+      margin-top: 2.5rem;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(90,49,24,0.12);
+    }
+
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.8rem;
+      font-weight: 900;
+      color: var(--caramel);
+      line-height: 1;
+    }
+
+    .stat-lbl {
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--mocha);
+      opacity: 0.65;
+      margin-top: 0.15rem;
+    }
+
+    /* ── RITUAL ───────────────────────────────── */
+    .ritual {
+      background: var(--espresso);
+      padding: 8rem 6rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .ritual-bg-word {
+      position: absolute;
+      font-family: 'Playfair Display', serif;
+      font-size: 20vw;
+      font-weight: 900;
+      color: rgba(255,255,255,0.018);
+      top: 50%; left: 50%;
+      transform: translate(-50%,-50%);
+      pointer-events: none;
+      user-select: none;
+      white-space: nowrap;
+    }
+
+    .ritual-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 5.5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .ritual-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.8rem, 4.5vw, 4.2rem);
+      font-weight: 700;
+      color: var(--cream);
+      line-height: 1.15;
+      max-width: 360px;
+    }
+
+    .ritual-intro {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.18rem;
+      color: rgba(200,148,106,0.75);
+      max-width: 340px;
+      line-height: 1.75;
+      font-style: italic;
+    }
+
+    .ritual-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2.5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .ritual-step { position: relative; }
+
+    .ritual-step + .ritual-step::before {
+      content: '';
+      position: absolute;
+      top: 2.1rem; left: -1.25rem;
+      width: 2.5rem; height: 1px;
+      background: rgba(184,116,44,0.25);
+    }
+
+    .step-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.8rem;
+      font-weight: 900;
+      color: rgba(184,116,44,0.22);
+      line-height: 1;
+      margin-bottom: 1rem;
+    }
+
+    .step-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--cream);
+      margin-bottom: 0.7rem;
+    }
+
+    .step-desc {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      color: rgba(200,148,106,0.65);
+      line-height: 1.65;
+    }
+
+    /* ── VISIT ────────────────────────────────── */
+    .visit {
+      padding: 8rem 6rem;
+      background: var(--parchment);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 7rem;
+      align-items: center;
+    }
+
+    .visit-text {}
+
+    .visit-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.8rem;
+      font-size: 0.68rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--mocha);
+      margin-bottom: 1.8rem;
+    }
+
+    .visit-pill::before,
+    .visit-pill::after {
+      content: '';
+      display: block;
+      width: 24px; height: 1px;
+      background: currentColor;
+      opacity: 0.4;
+    }
+
+    .visit-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.4rem, 3.8vw, 3.4rem);
+      font-weight: 700;
+      color: var(--espresso);
+      line-height: 1.2;
+      margin-bottom: 1.8rem;
+    }
+
+    .visit-title em { color: var(--caramel); }
+
+    .visit-body {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem;
+      color: var(--mocha);
+      line-height: 1.8;
+      margin-bottom: 2.5rem;
+    }
+
+    .visit-details {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .detail {
+      display: grid;
+      grid-template-columns: 7rem 1fr;
+      gap: 1rem;
+      align-items: start;
+      padding: 1.2rem 0;
+      border-bottom: 1px solid rgba(90,49,24,0.1);
+    }
+
+    .detail:last-child { border-bottom: none; }
+
+    .detail-lbl {
+      font-size: 0.62rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--caramel);
+      padding-top: 0.2rem;
+    }
+
+    .detail-val {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      color: var(--espresso);
+      line-height: 1.55;
+    }
+
+    .visit-image-wrap { position: relative; }
+
+    .visit-img {
+      width: 100%;
+      aspect-ratio: 4/5;
+      object-fit: cover;
+      border-radius: 3px;
+      display: block;
+    }
+
+    /* Stamp badge */
+    .stamp {
+      position: absolute;
+      bottom: 2rem; left: -2.5rem;
+      width: 110px; height: 110px;
+      background: var(--espresso);
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      animation: spinStamp 22s linear infinite;
+    }
+
+    .stamp-year {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      font-weight: 900;
+      color: var(--caramel);
+      line-height: 1;
+    }
+
+    .stamp-text {
+      font-size: 0.52rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(250,245,238,0.6);
+      text-align: center;
+      line-height: 1.4;
+    }
+
+    @keyframes spinStamp {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+
+    /* ── FOOTER ───────────────────────────────── */
+    footer {
+      background: var(--espresso);
+      padding: 3.5rem 6rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .foot-brand {}
+
+    .foot-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem;
+      font-weight: 900;
+      color: var(--cream);
+      letter-spacing: 0.04em;
+    }
+
+    .foot-logo em {
+      color: var(--caramel);
+      font-style: italic;
+    }
+
+    .foot-tag {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.85rem;
+      color: rgba(200,148,106,0.55);
+      font-style: italic;
+    }
+
+    .foot-nav {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .foot-nav a {
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(250,245,238,0.45);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .foot-nav a:hover { color: var(--caramel); }
+
+    .foot-copy {
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      color: rgba(200,148,106,0.3);
+    }
+
+    /* ── REVEAL ANIMATIONS ────────────────────── */
+    .r {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.85s cubic-bezier(0.25,0.46,0.45,0.94),
+                  transform 0.85s cubic-bezier(0.25,0.46,0.45,0.94);
+    }
+
+    .r.on { opacity: 1; transform: translateY(0); }
+
+    .r-d1 { transition-delay: 0.1s; }
+    .r-d2 { transition-delay: 0.22s; }
+    .r-d3 { transition-delay: 0.34s; }
+    .r-d4 { transition-delay: 0.46s; }
+    .r-d5 { transition-delay: 0.58s; }
+
+    /* ── RESPONSIVE ───────────────────────────── */
+    @media (max-width: 1000px) {
+      nav { padding: 1.5rem 2.5rem; }
+      nav.scrolled { padding: 1rem 2.5rem; }
+      .nav-links { display: none; }
+
+      .hero { grid-template-columns: 1fr; }
+      .hero-right { height: 55vw; min-height: 280px; }
+      .hero-left { padding: 8rem 2.5rem 4rem; }
+      .hero-scroll { left: 2.5rem; }
+
+      .manifesto { padding: 6rem 2.5rem; }
+      .menu-head { padding: 0 2.5rem; flex-direction: column; gap: 1rem; align-items: flex-start; }
+      .menu-track { padding: 0 2.5rem 2rem; }
+
+      .atm { grid-template-columns: 1fr; padding: 6rem 2.5rem; gap: 4rem; }
+      .atm-accent { display: none; }
+
+      .ritual { padding: 6rem 2.5rem; }
+      .ritual-head { flex-direction: column; gap: 2rem; }
+      .ritual-grid { grid-template-columns: 1fr 1fr; }
+      .ritual-step + .ritual-step::before { display: none; }
+
+      .visit { grid-template-columns: 1fr; padding: 6rem 2.5rem; gap: 4rem; }
+      .stamp { display: none; }
+
+      footer { flex-direction: column; gap: 2rem; padding: 3rem 2.5rem; text-align: center; }
+      .foot-nav { flex-wrap: wrap; justify-content: center; }
+    }
+
+    @media (max-width: 600px) {
+      .ritual-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="nav">
+    <a href="#" class="nav-logo">POOM<em>cafe</em></a>
+    <ul class="nav-links">
+      <li><a href="#menu">Menu</a></li>
+      <li><a href="#atmosphere">Our Space</a></li>
+      <li><a href="#ritual">The Ritual</a></li>
+      <li><a href="#visit">Visit</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-left">
+      <p class="hero-label">Est. 2018 · Bangkok, Thailand</p>
+      <p class="hero-tagline">Where every cup tells a story</p>
+      <h1 class="hero-wordmark">
+        <span class="line-1">POOM</span>
+        <span class="line-2">Cafe</span>
+      </h1>
+      <p class="hero-body">A warm corner in the city where time slows down, strangers become regulars, and coffee is never an afterthought.</p>
+      <a href="#menu" class="hero-cta">Explore our menu</a>
+      <span class="hero-rotated">Specialty Coffee · Bangkok · Since 2018</span>
+    </div>
+    <div class="hero-right">
+      <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=900&q=80&fit=crop" alt="Barista pouring latte art">
+      <div class="hero-right-overlay"></div>
+      <div class="steam-wrap">
+        <div class="steam"></div>
+        <div class="steam"></div>
+        <div class="steam"></div>
+      </div>
+    </div>
+    <div class="hero-scroll">
+      <div class="scroll-bar"></div>
+      <span class="scroll-text">Scroll</span>
+    </div>
+  </section>
+
+  <!-- TICKER -->
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker-track">
+      <!-- Two copies for seamless loop -->
+      <span class="ticker-item">Poomcafe<span class="ticker-dot"></span></span>
+      <span class="ticker-item">Specialty Coffee<span class="ticker-dot"></span></span>
+      <span class="ticker-item">Bangkok, Thailand<span class="ticker-dot"></span></span>
+      <span class="ticker-item">Single Origin Beans<span class="ticker-dot"></span></span>
+      <span class="ticker-item">Since 2018<span class="ticker-dot"></span></span>
+      <span class="ticker-item">Slow Down &amp; Stay<span class="ticker-dot"></span></span>
+      <span class="ticker-item">Poomcafe<span class="ticker-dot"></span></span>
+      <span class="ticker-item">Specialty Coffee<span class="ticker-dot"></span></span>
+      <span class="ticker-item">Bangkok, Thailand<span class="ticker-dot"></span></span>
+      <span class="ticker-item">Single Origin Beans<span class="ticker-dot"></span></span>
+      <span class="ticker-item">Since 2018<span class="ticker-dot"></span></span>
+      <span class="ticker-item">Slow Down &amp; Stay<span class="ticker-dot"></span></span>
+    </div>
+  </div>
+
+  <!-- MANIFESTO -->
+  <section class="manifesto">
+    <div class="manifesto-deco" aria-hidden="true">"</div>
+    <div class="manifesto-inner">
+      <div class="section-pill r">Our Philosophy</div>
+      <p class="manifesto-quote r r-d1">
+        "Coffee is not just a beverage — it's the warmth in your hands on a cold morning, the quiet that lets you think, and the bridge between strangers who become friends."
+      </p>
+      <p class="manifesto-attr r r-d2">— Poomcafe, every morning since 2018</p>
+    </div>
+  </section>
+
+  <!-- MENU -->
+  <section class="menu-section" id="menu">
+    <div class="menu-head">
+      <h2 class="menu-title r">
+        Our<br>
+        <em>Offerings</em>
+      </h2>
+      <p class="menu-desc r r-d2">Each cup crafted with intention — sourced, roasted, and prepared to honour the journey from bean to hand.</p>
+    </div>
+    <div class="menu-track" id="menuTrack">
+      <div class="card r">
+        <div class="card-img">
+          <img src="https://picsum.photos/seed/dark-espresso-cup/290/200" alt="Dark Poom espresso">
+        </div>
+        <div class="card-body">
+          <p class="card-cat">Signature</p>
+          <h3 class="card-name">Dark Poom</h3>
+          <p class="card-desc">A double ristretto pulled long — bold and bright with notes of dark chocolate and dried fig.</p>
+          <p class="card-price">฿65</p>
+        </div>
+      </div>
+      <div class="card r r-d1">
+        <div class="card-img">
+          <img src="https://picsum.photos/seed/latte-art-pour/290/200" alt="Warm Latte">
+        </div>
+        <div class="card-body">
+          <p class="card-cat">Milk &amp; Espresso</p>
+          <h3 class="card-name">Warm Latte</h3>
+          <p class="card-desc">Silky microfoam meets single-origin espresso. Simple, honest, and absolutely comforting.</p>
+          <p class="card-price">฿95</p>
+        </div>
+      </div>
+      <div class="card r r-d2">
+        <div class="card-img">
+          <img src="https://picsum.photos/seed/cold-brew-ice/290/200" alt="Slow Brew cold">
+        </div>
+        <div class="card-body">
+          <p class="card-cat">Cold Series</p>
+          <h3 class="card-name">Slow Brew</h3>
+          <p class="card-desc">Eighteen-hour cold extraction, served over crystal ice with a whisper of dried orange peel.</p>
+          <p class="card-price">฿110</p>
+        </div>
+      </div>
+      <div class="card r r-d3">
+        <div class="card-img">
+          <img src="https://picsum.photos/seed/honey-golden-coffee/290/200" alt="Golden Hour seasonal">
+        </div>
+        <div class="card-body">
+          <p class="card-cat">Seasonal</p>
+          <h3 class="card-name">Golden Hour</h3>
+          <p class="card-desc">Wild honey from Chiang Mai, turmeric, and our house blend. A seasonal ritual you'll return for.</p>
+          <p class="card-price">฿120</p>
+        </div>
+      </div>
+      <div class="card r r-d4">
+        <div class="card-img">
+          <img src="https://picsum.photos/seed/matcha-ceremonial-oat/290/200" alt="Jade Morning matcha">
+        </div>
+        <div class="card-body">
+          <p class="card-cat">Non-Coffee</p>
+          <h3 class="card-name">Jade Morning</h3>
+          <p class="card-desc">Ceremonial grade matcha whisked with oat milk. A gentle, grounding start for caffeine-free mornings.</p>
+          <p class="card-price">฿100</p>
+        </div>
+      </div>
+      <div class="card r r-d5">
+        <div class="card-img">
+          <img src="https://picsum.photos/seed/pastry-croissant-cafe/290/200" alt="Morning pastry">
+        </div>
+        <div class="card-body">
+          <p class="card-cat">Kitchen</p>
+          <h3 class="card-name">Morning Kouign</h3>
+          <p class="card-desc">Butter-laminated kouign-amann baked fresh at 7am. Caramelised edges, soft centre. Very limited.</p>
+          <p class="card-price">฿85</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ATMOSPHERE -->
+  <section class="atm" id="atmosphere">
+    <div class="atm-images">
+      <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=700&q=80&fit=crop" alt="Poomcafe interior" class="atm-main r">
+      <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=400&q=80&fit=crop" alt="Latte art close-up" class="atm-accent r r-d3">
+    </div>
+    <div class="atm-text">
+      <p class="atm-chapter r">
+        <span class="atm-chapter-num">02</span>
+        Our Space
+      </p>
+      <h2 class="atm-title r r-d1">
+        Designed to<br>
+        <em>Slow You Down</em>
+      </h2>
+      <p class="atm-body r r-d2">Poomcafe was built around one belief: a great coffee shop doesn't rush you. Our space is a study in warmth — wooden surfaces worn soft by time, windows that catch afternoon light, and corners made for settling into.</p>
+      <p class="atm-body r r-d3">Whether you're deep in work, deep in a book, or simply breathing — Poomcafe holds space for you.</p>
+      <div class="atm-stats r r-d4">
+        <div>
+          <div class="stat-num">6+</div>
+          <div class="stat-lbl">Years of warmth</div>
+        </div>
+        <div>
+          <div class="stat-num">200+</div>
+          <div class="stat-lbl">Cups poured daily</div>
+        </div>
+        <div>
+          <div class="stat-num">4</div>
+          <div class="stat-lbl">Bean origins</div>
+        </div>
+        <div>
+          <div class="stat-num">1</div>
+          <div class="stat-lbl">Perfect corner</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RITUAL -->
+  <section class="ritual" id="ritual">
+    <div class="ritual-bg-word" aria-hidden="true">RITUAL</div>
+    <div class="ritual-head">
+      <h2 class="ritual-title r">
+        The Coffee<br>Ritual
+      </h2>
+      <p class="ritual-intro r r-d2">Every cup at Poomcafe follows a path we've refined over thousands of brews — a quiet ceremony you can taste in every sip.</p>
+    </div>
+    <div class="ritual-grid">
+      <div class="ritual-step r">
+        <div class="step-num">01</div>
+        <h3 class="step-name">Source</h3>
+        <p class="step-desc">We work directly with small farms in Chiang Rai, Doi Chang, and Lampang. Each harvest is a relationship built over years.</p>
+      </div>
+      <div class="ritual-step r r-d1">
+        <div class="step-num">02</div>
+        <h3 class="step-name">Roast</h3>
+        <p class="step-desc">Roasted in small batches every Tuesday. We chase sweetness, not darkness — light enough to let origin speak clearly.</p>
+      </div>
+      <div class="ritual-step r r-d2">
+        <div class="step-num">03</div>
+        <h3 class="step-name">Brew</h3>
+        <p class="step-desc">Every method is considered. Pour-over, espresso, cold — we match the bean to the process that honours it most.</p>
+      </div>
+      <div class="ritual-step r r-d3">
+        <div class="step-num">04</div>
+        <h3 class="step-name">Serve</h3>
+        <p class="step-desc">In your hands — warm, intentional, made exactly for this moment. That's the only way we know how to do it.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- VISIT -->
+  <section class="visit" id="visit">
+    <div class="visit-text">
+      <div class="visit-pill r">Come Find Us</div>
+      <h2 class="visit-title r r-d1">
+        Your corner<br>
+        is <em>waiting.</em>
+      </h2>
+      <p class="visit-body r r-d2">We're tucked away on a quiet street — not hard to find, but worth the walk. Come as you are. Stay as long as you need.</p>
+      <div class="visit-details r r-d3">
+        <div class="detail">
+          <span class="detail-lbl">Address</span>
+          <span class="detail-val">42 Soi Ari 4, Phahon Yothin Road<br>Samsennai, Bangkok 10400</span>
+        </div>
+        <div class="detail">
+          <span class="detail-lbl">Hours</span>
+          <span class="detail-val">Mon – Fri: 7:30 am – 7:00 pm<br>Sat – Sun: 8:00 am – 8:00 pm</span>
+        </div>
+        <div class="detail">
+          <span class="detail-lbl">Phone</span>
+          <span class="detail-val">+66 2 000 1234</span>
+        </div>
+        <div class="detail">
+          <span class="detail-lbl">Find Us</span>
+          <span class="detail-val">@poomcafe · hello@poomcafe.th</span>
+        </div>
+      </div>
+    </div>
+    <div class="visit-image-wrap r r-d2">
+      <img src="https://picsum.photos/seed/warm-cafe-window-afternoon/600/750" alt="Poomcafe entrance" class="visit-img">
+      <div class="stamp">
+        <div class="stamp-year">2018</div>
+        <div class="stamp-text">Est. in<br>Bangkok</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="foot-brand">
+      <div class="foot-logo">POOM<em>cafe</em></div>
+      <p class="foot-tag">A place to stay a little longer.</p>
+    </div>
+    <ul class="foot-nav">
+      <li><a href="#menu">Menu</a></li>
+      <li><a href="#atmosphere">Our Space</a></li>
+      <li><a href="#ritual">Ritual</a></li>
+      <li><a href="#visit">Visit</a></li>
+      <li><a href="#">Instagram</a></li>
+    </ul>
+    <p class="foot-copy">&copy; 2024 Poomcafe. Bangkok, Thailand.</p>
+  </footer>
+
+  <script>
+    // Scroll reveal
+    const revealEls = document.querySelectorAll('.r');
+    const revealObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('on');
+          revealObs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    revealEls.forEach(el => revealObs.observe(el));
+
+    // Nav scroll state
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 80);
+    }, { passive: true });
+
+    // Drag-to-scroll for menu cards
+    const track = document.getElementById('menuTrack');
+    let isDragging = false, dragStart = 0, scrollStart = 0;
+
+    track.addEventListener('mousedown', e => {
+      isDragging = true;
+      dragStart = e.pageX - track.offsetLeft;
+      scrollStart = track.scrollLeft;
+      track.classList.add('dragging');
+    });
+
+    document.addEventListener('mouseup', () => {
+      isDragging = false;
+      track.classList.remove('dragging');
+    });
+
+    document.addEventListener('mousemove', e => {
+      if (!isDragging) return;
+      e.preventDefault();
+      const x = e.pageX - track.offsetLeft;
+      track.scrollLeft = scrollStart - (x - dragStart) * 1.4;
+    });
+  </script>
+</body>
+</html>

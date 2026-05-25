@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Poomcafe — A Place to Breathe</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Jost:wght@300;400;500&display=swap');
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --beige:       #F4EDE0;
+      --cream:       #FBF7F0;
+      --espresso:    #2B1A0F;
+      --caramel:     #B87840;
+      --latte:       #C8A882;
+      --fog:         #E8DDD0;
+      --warm-gray:   #7A6A5A;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--cream);
+      color: var(--espresso);
+      font-family: 'Jost', system-ui, sans-serif;
+      font-weight: 300;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ─── NAV ─────────────────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.4rem 3rem;
+      background: transparent;
+      transition: background 0.4s, padding 0.4s;
+    }
+    nav.scrolled {
+      background: rgba(251,247,240,0.94);
+      backdrop-filter: blur(8px);
+      padding: 1rem 3rem;
+      box-shadow: 0 1px 0 rgba(43,26,15,0.08);
+    }
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.35rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      color: var(--cream);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    nav.scrolled .nav-logo { color: var(--espresso); }
+    .nav-links {
+      display: flex;
+      gap: 2.4rem;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 0.78rem;
+      font-weight: 400;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: rgba(251,247,240,0.85);
+      transition: color 0.3s;
+    }
+    nav.scrolled .nav-links a { color: var(--warm-gray); }
+    .nav-links a:hover { color: var(--caramel); }
+
+    /* ─── HERO ────────────────────────────────────────────── */
+    .hero {
+      position: relative;
+      height: 100vh;
+      min-height: 600px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+    }
+    .hero-img {
+      position: absolute;
+      inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: center 60%;
+      filter: brightness(0.55) saturate(0.85);
+    }
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(43,26,15,0.15) 0%,
+        rgba(43,26,15,0.35) 60%,
+        rgba(43,26,15,0.65) 100%
+      );
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.2rem;
+      padding: 0 2rem;
+    }
+    .hero-eyebrow {
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--latte);
+    }
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3.2rem, 8vw, 7rem);
+      font-weight: 400;
+      line-height: 1.05;
+      color: var(--cream);
+      letter-spacing: -0.01em;
+    }
+    .hero-title em {
+      font-style: italic;
+      color: var(--latte);
+    }
+    .hero-sub {
+      font-size: 0.95rem;
+      font-weight: 300;
+      letter-spacing: 0.06em;
+      color: rgba(251,247,240,0.78);
+      max-width: 360px;
+      margin-top: 0.3rem;
+    }
+    .hero-cta {
+      margin-top: 1.6rem;
+      display: inline-block;
+      padding: 0.9rem 2.4rem;
+      border: 1px solid rgba(200,168,130,0.7);
+      color: var(--cream);
+      font-size: 0.78rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: background 0.3s, border-color 0.3s;
+    }
+    .hero-cta:hover {
+      background: rgba(200,168,130,0.2);
+      border-color: var(--latte);
+    }
+    .hero-scroll {
+      position: absolute;
+      bottom: 2.4rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      color: rgba(251,247,240,0.55);
+      font-size: 0.68rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+    .scroll-line {
+      width: 1px;
+      height: 40px;
+      background: rgba(200,168,130,0.5);
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.3; transform: scaleY(1); }
+      50% { opacity: 1; transform: scaleY(1.15); }
+    }
+
+    /* ─── SECTIONS SHARED ─────────────────────────────────── */
+    section { padding: 7rem 3rem; }
+
+    .section-label {
+      display: inline-block;
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--caramel);
+      margin-bottom: 1.4rem;
+    }
+
+    /* ─── INTRO SPLIT ─────────────────────────────────────── */
+    .intro {
+      background: var(--beige);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .intro-text h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      font-weight: 400;
+      line-height: 1.2;
+      margin-bottom: 1.8rem;
+      color: var(--espresso);
+    }
+    .intro-text h2 em {
+      font-style: italic;
+      color: var(--caramel);
+    }
+    .intro-text p {
+      font-size: 1rem;
+      color: var(--warm-gray);
+      line-height: 1.85;
+      max-width: 420px;
+    }
+    .intro-text p + p { margin-top: 1.2rem; }
+    .intro-img-wrap {
+      position: relative;
+    }
+    .intro-img-wrap img {
+      width: 100%;
+      aspect-ratio: 3/4;
+      object-fit: cover;
+      display: block;
+    }
+    .intro-img-accent {
+      position: absolute;
+      bottom: -2rem;
+      right: -2rem;
+      width: 48%;
+      aspect-ratio: 1;
+      object-fit: cover;
+      border: 6px solid var(--cream);
+    }
+    .section-wrap { max-width: 1200px; margin: 0 auto; }
+
+    /* ─── MENU FEATURES ───────────────────────────────────── */
+    .menu-section {
+      background: var(--cream);
+    }
+    .menu-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 3.5rem;
+    }
+    .menu-header h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 3vw, 2.6rem);
+      font-weight: 400;
+      color: var(--espresso);
+      line-height: 1.15;
+    }
+    .menu-link {
+      font-size: 0.78rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--caramel);
+      text-decoration: none;
+      border-bottom: 1px solid var(--caramel);
+      padding-bottom: 2px;
+      white-space: nowrap;
+      margin-bottom: 0.2rem;
+      transition: opacity 0.2s;
+    }
+    .menu-link:hover { opacity: 0.65; }
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+    .menu-card {
+      display: flex;
+      flex-direction: column;
+      gap: 1.4rem;
+    }
+    .menu-card-img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94);
+      overflow: hidden;
+    }
+    .menu-card:hover .menu-card-img { transform: scale(1.03); }
+    .menu-card-img-wrap { overflow: hidden; }
+    .menu-card-body {}
+    .menu-card-tag {
+      font-size: 0.68rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--latte);
+      margin-bottom: 0.5rem;
+    }
+    .menu-card-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.35rem;
+      font-weight: 500;
+      color: var(--espresso);
+      margin-bottom: 0.6rem;
+    }
+    .menu-card-desc {
+      font-size: 0.88rem;
+      color: var(--warm-gray);
+      line-height: 1.7;
+    }
+    .menu-card-price {
+      margin-top: 0.8rem;
+      font-size: 0.9rem;
+      font-weight: 400;
+      letter-spacing: 0.05em;
+      color: var(--caramel);
+    }
+
+    /* ─── FULL BLEED QUOTE ────────────────────────────────── */
+    .quote-section {
+      position: relative;
+      padding: 0;
+      height: 70vh;
+      min-height: 420px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .quote-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      filter: brightness(0.45) saturate(0.7);
+    }
+    .quote-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(43,26,15,0.6) 0%, rgba(43,26,15,0.3) 100%);
+    }
+    .quote-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 0 2rem;
+      max-width: 780px;
+    }
+    .quote-mark {
+      font-family: 'Playfair Display', serif;
+      font-size: 5rem;
+      line-height: 0.5;
+      color: var(--latte);
+      opacity: 0.6;
+      display: block;
+      margin-bottom: 1.5rem;
+    }
+    .quote-text {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.5rem, 3vw, 2.4rem);
+      font-weight: 400;
+      font-style: italic;
+      color: var(--cream);
+      line-height: 1.45;
+      margin-bottom: 1.8rem;
+    }
+    .quote-attr {
+      font-size: 0.75rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--latte);
+    }
+
+    /* ─── EXPERIENCE ──────────────────────────────────────── */
+    .experience-section {
+      background: var(--beige);
+    }
+    .experience-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 5rem;
+      align-items: center;
+    }
+    .experience-imgs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    .experience-imgs img:first-child {
+      grid-column: 1 / -1;
+      aspect-ratio: 16/9;
+      object-fit: cover;
+      width: 100%;
+    }
+    .experience-imgs img:not(:first-child) {
+      aspect-ratio: 1;
+      object-fit: cover;
+      width: 100%;
+    }
+    .experience-text h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 3vw, 2.6rem);
+      font-weight: 400;
+      line-height: 1.2;
+      margin-bottom: 1.6rem;
+      color: var(--espresso);
+    }
+    .experience-text p {
+      font-size: 0.95rem;
+      color: var(--warm-gray);
+      line-height: 1.85;
+      margin-bottom: 1rem;
+    }
+    .feature-list {
+      list-style: none;
+      margin-top: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+    }
+    .feature-list li {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      font-size: 0.88rem;
+      color: var(--warm-gray);
+      letter-spacing: 0.02em;
+    }
+    .feature-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--caramel);
+      flex-shrink: 0;
+    }
+
+    /* ─── HOURS + MAP STRIP ───────────────────────────────── */
+    .info-strip {
+      background: var(--espresso);
+      color: var(--cream);
+      padding: 5rem 3rem;
+    }
+    .info-grid {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1px 1fr 1px 1fr;
+      gap: 3rem;
+      align-items: start;
+    }
+    .info-divider {
+      width: 1px;
+      height: 100%;
+      background: rgba(200,168,130,0.2);
+      align-self: stretch;
+    }
+    .info-block h3 {
+      font-size: 0.68rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--latte);
+      margin-bottom: 1.2rem;
+    }
+    .info-block p {
+      font-size: 0.9rem;
+      line-height: 1.85;
+      color: rgba(251,247,240,0.7);
+    }
+    .info-block a {
+      color: rgba(251,247,240,0.7);
+      text-decoration: none;
+    }
+    .hours-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.88rem;
+      color: rgba(251,247,240,0.65);
+      padding: 0.3rem 0;
+      border-bottom: 1px solid rgba(200,168,130,0.1);
+    }
+    .hours-row:last-child { border-bottom: none; }
+    .hours-row span:first-child { color: rgba(251,247,240,0.85); font-weight: 400; }
+
+    /* ─── FOOTER ──────────────────────────────────────────── */
+    footer {
+      background: var(--espresso);
+      border-top: 1px solid rgba(200,168,130,0.1);
+      padding: 2.4rem 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .footer-brand {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-weight: 400;
+      color: var(--cream);
+      letter-spacing: 0.06em;
+    }
+    .footer-copy {
+      font-size: 0.72rem;
+      color: rgba(200,168,130,0.45);
+      letter-spacing: 0.06em;
+    }
+    .footer-tagline {
+      font-size: 0.75rem;
+      color: rgba(200,168,130,0.5);
+      font-style: italic;
+      font-family: 'Playfair Display', serif;
+    }
+
+    /* ─── FADE-IN ANIMATION ───────────────────────────────── */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ─── RESPONSIVE ──────────────────────────────────────── */
+    @media (max-width: 900px) {
+      section { padding: 5rem 2rem; }
+      .intro { grid-template-columns: 1fr; gap: 3rem; }
+      .intro-img-accent { display: none; }
+      .menu-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .experience-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .info-grid { grid-template-columns: 1fr; }
+      .info-divider { display: none; }
+      nav { padding: 1.2rem 1.5rem; }
+      nav.scrolled { padding: 0.9rem 1.5rem; }
+      .nav-links { gap: 1.4rem; }
+      footer { flex-direction: column; gap: 0.8rem; text-align: center; }
+    }
+    @media (max-width: 600px) {
+      .menu-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
+      .hero-title { font-size: 2.8rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="main-nav">
+    <a class="nav-logo" href="#">Poomcafe</a>
+    <ul class="nav-links">
+      <li><a href="#menu">Menu</a></li>
+      <li><a href="#space">Our Space</a></li>
+      <li><a href="#visit">Visit</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <img
+      class="hero-img"
+      src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=1600&auto=format&fit=crop&q=80"
+      alt="Warm coffee shop interior with morning light"
+    />
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <span class="hero-eyebrow">Est. in warmth</span>
+      <h1 class="hero-title">A cup,<br>a chair,<br><em>a moment.</em></h1>
+      <p class="hero-sub">Where the coffee is crafted slowly and the hours feel just a little longer.</p>
+      <a class="hero-cta" href="#menu">Explore our menu</a>
+    </div>
+    <div class="hero-scroll">
+      <div class="scroll-line"></div>
+      scroll
+    </div>
+  </section>
+
+  <!-- INTRO SPLIT -->
+  <div style="background: var(--beige);">
+    <div class="section-wrap" style="padding: 7rem 3rem;">
+      <div class="intro fade-up">
+        <div class="intro-text">
+          <span class="section-label">Our story</span>
+          <h2>Comfort brewed<br>into <em>every detail</em></h2>
+          <p>Poomcafe was born from one simple belief: a good coffee shop should feel like the best corner of your home — only with better espresso.</p>
+          <p>We source our beans with intention, train our baristas with patience, and design our space to invite you to stay a little longer than you planned.</p>
+        </div>
+        <div class="intro-img-wrap">
+          <img
+            src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=700&auto=format&fit=crop&q=80"
+            alt="Barista carefully pouring latte art"
+          />
+          <img
+            class="intro-img-accent"
+            src="https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=400&auto=format&fit=crop&q=80"
+            alt="Coffee beans close up"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MENU FEATURES -->
+  <section class="menu-section" id="menu">
+    <div class="section-wrap">
+      <div class="menu-header fade-up">
+        <div>
+          <span class="section-label">What we brew</span>
+          <h2>Crafted with<br>slow hands</h2>
+        </div>
+        <a class="menu-link" href="#">Full menu →</a>
+      </div>
+      <div class="menu-grid">
+        <div class="menu-card fade-up">
+          <div class="menu-card-img-wrap">
+            <img
+              class="menu-card-img"
+              src="https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=600&auto=format&fit=crop&q=80"
+              alt="Flat white coffee"
+            />
+          </div>
+          <div class="menu-card-body">
+            <p class="menu-card-tag">Espresso</p>
+            <h3 class="menu-card-name">Signature Flat White</h3>
+            <p class="menu-card-desc">A double ristretto pulled long with microfoam milk — silky, rounded, and made to be lingered over.</p>
+            <p class="menu-card-price">฿85</p>
+          </div>
+        </div>
+        <div class="menu-card fade-up" style="transition-delay: 0.1s">
+          <div class="menu-card-img-wrap">
+            <img
+              class="menu-card-img"
+              src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=600&auto=format&fit=crop&q=80"
+              alt="Cold brew coffee in glass"
+            />
+          </div>
+          <div class="menu-card-body">
+            <p class="menu-card-tag">Cold Brew</p>
+            <h3 class="menu-card-name">Honey Cold Brew</h3>
+            <p class="menu-card-desc">Steeped 18 hours, sweetened with wildflower honey. Dark, smooth, and perfect for slow Bangkok afternoons.</p>
+            <p class="menu-card-price">฿95</p>
+          </div>
+        </div>
+        <div class="menu-card fade-up" style="transition-delay: 0.2s">
+          <div class="menu-card-img-wrap">
+            <img
+              class="menu-card-img"
+              src="https://images.unsplash.com/photo-1481833761820-0509d3217039?w=600&auto=format&fit=crop&q=80"
+              alt="Croissant with coffee"
+            />
+          </div>
+          <div class="menu-card-body">
+            <p class="menu-card-tag">Kitchen</p>
+            <h3 class="menu-card-name">Brown Butter Croissant</h3>
+            <p class="menu-card-desc">Baked each morning, layered with cultured butter and a touch of fleur de sel. Warm when you want it.</p>
+            <p class="menu-card-price">฿75</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUOTE / FULL BLEED -->
+  <div class="quote-section fade-up">
+    <img
+      class="quote-bg"
+      src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=1600&auto=format&fit=crop&q=80"
+      alt="Coffee shop interior atmosphere"
+    />
+    <div class="quote-overlay"></div>
+    <div class="quote-content">
+      <span class="quote-mark">"</span>
+      <p class="quote-text">The right café doesn't ask you to rush. It holds your coat, fills your cup, and lets the world wait at the door.</p>
+      <span class="quote-attr">— The Poomcafe way</span>
+    </div>
+  </div>
+
+  <!-- EXPERIENCE / SPACE -->
+  <section class="experience-section" id="space">
+    <div class="section-wrap">
+      <div class="experience-grid fade-up">
+        <div class="experience-imgs">
+          <img
+            src="https://images.unsplash.com/photo-1521017432531-fbd92d768814?w=900&auto=format&fit=crop&q=80"
+            alt="Cozy coffee shop corner with warm lighting"
+          />
+          <img
+            src="https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=500&auto=format&fit=crop&q=80"
+            alt="Coffee cup on wooden table"
+          />
+          <img
+            src="https://picsum.photos/seed/cafe-books/500/500"
+            alt="Books and coffee on cafe table"
+          />
+        </div>
+        <div class="experience-text">
+          <span class="section-label">Our space</span>
+          <h2>Designed to feel like nowhere else</h2>
+          <p>Warm wood, natural light, and the kind of quiet hum that makes you forget your phone exists. Every seat was chosen so you could actually settle in.</p>
+          <p>Whether you're here for an hour of focused work or an afternoon of nothing at all — the space holds both.</p>
+          <ul class="feature-list">
+            <li><span class="feature-dot"></span> Free high-speed wifi, no passwords</li>
+            <li><span class="feature-dot"></span> Private corner booths for quiet work</li>
+            <li><span class="feature-dot"></span> Natural light from 7am to 5pm</li>
+            <li><span class="feature-dot"></span> Dog-friendly terrace</li>
+            <li><span class="feature-dot"></span> Plug sockets at every seat</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INFO STRIP -->
+  <section class="info-strip" id="visit">
+    <div class="info-grid">
+      <div class="info-block fade-up">
+        <h3>Find us</h3>
+        <p>
+          12 Soi Ari 4<br>
+          Phaya Thai, Bangkok<br>
+          10400, Thailand<br><br>
+          <a href="#">Get directions →</a>
+        </p>
+      </div>
+      <div class="info-divider"></div>
+      <div class="info-block fade-up" style="transition-delay:0.1s">
+        <h3>Opening hours</h3>
+        <div class="hours-row"><span>Mon – Fri</span><span>7:00 – 20:00</span></div>
+        <div class="hours-row"><span>Saturday</span><span>8:00 – 21:00</span></div>
+        <div class="hours-row"><span>Sunday</span><span>8:00 – 19:00</span></div>
+      </div>
+      <div class="info-divider"></div>
+      <div class="info-block fade-up" style="transition-delay:0.2s">
+        <h3>Say hello</h3>
+        <p>
+          <a href="mailto:hello@poomcafe.com">hello@poomcafe.com</a><br><br>
+          <a href="tel:+6621234567">+66 2 123 4567</a><br><br>
+          @poomcafe on Instagram
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <span class="footer-brand">Poomcafe</span>
+    <span class="footer-tagline">A place to breathe.</span>
+    <span class="footer-copy">© 2026 Poomcafe. All rights reserved.</span>
+  </footer>
+
+  <script>
+    // Sticky nav
+    const nav = document.getElementById('main-nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 60);
+    }, { passive: true });
+
+    // Fade-up on scroll
+    const fadeEls = document.querySelectorAll('.fade-up');
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          obs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    fadeEls.forEach(el => obs.observe(el));
+  </script>
+</body>
+</html>
